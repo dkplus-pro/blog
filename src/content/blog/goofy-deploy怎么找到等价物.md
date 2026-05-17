@@ -1,3 +1,11 @@
+---
+title: 'goofy deploy怎么找到等价物'
+date: 2026-05-13
+tags: ['前端', '后端', '架构', '运维', '工程化', '性能优化', '全栈']
+description: '我不能确认字节内部 Goofy Deploy 的所有细节，但从公开资料看，它更像字节内部的 大前端部署平台 / Web 应用 PaaS，不是单纯的“云函数 Serverless”。'
+draft: false
+---
+
 我不能确认字节内部 **Goofy Deploy** 的所有细节，但从公开资料看，它更像字节内部的 **大前端部署平台 / Web 应用 PaaS**，不是单纯的“云函数 Serverless”。
 
 更准确地说：

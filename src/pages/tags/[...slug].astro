@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  const tagMap = new Map<string, typeof posts>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      if (!tagMap.has(tag)) tagMap.set(tag, []);
+      tagMap.get(tag)!.push(post);
+    }
+  }
+
+  const pageSize = 10;
+  const paths: { params: { slug: string[] }; props: Record<string, unknown> }[] = [];
+
+  for (const [tag, tagPosts] of tagMap) {
+    const sorted = tagPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+    const totalPages = Math.ceil(sorted.length / pageSize);
+
+    for (let i = 0; i < totalPages; i++) {
+      const pageNum = i + 1;
+      const start = i * pageSize;
+      const slug = pageNum === 1 ? tag : `${tag}/page/${pageNum}`;
+      paths.push({
+        params: { slug },
+        props: {
+          tag,
+          posts: sorted.slice(start, start + pageSize),
+          currentPage: pageNum,
+          totalPages,
+          totalPosts: sorted.length,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { tag, posts, currentPage, totalPages, totalPosts } = Astro.props;
+
+function getReadingTime(body: string): string {
+  const words = body.trim().split(/\s+/).length;
+  const minutes = Math.max(1, Math.ceil(words / 400));
+  return `${minutes} 分钟阅读`;
+}
+
+function pageUrl(n: number): string {
+  if (n === 1) return `/blog/tags/${tag}/`;
+  return `/blog/tags/${tag}/page/${n}/`;
+}
+---
+
+<BaseLayout title={`标签: ${tag}`} description={`标签 ${tag} 下的文章`}>
+  <section class="tag-page">
+    <div class="tag-header">
+      <h1>标签: {tag}</h1>
+      <span class="post-count">{totalPosts} 篇文章</span>
+    </div>
+
+    <div class="post-list">
+      {posts.map(post => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          tags={post.data.tags}
+          description={post.data.description}
+          readingTime={getReadingTime(post.body)}
+          slug={post.id}
+        />
+      ))}
+    </div>
+
+    {totalPages > 1 && (
+      <nav class="pagination">
+        {currentPage > 1 && (
+          <a href={pageUrl(currentPage - 1)} class="page-link">← 上一页</a>
+        )}
+        <span class="page-info">{currentPage} / {totalPages}</span>
+        {currentPage < totalPages && (
+          <a href={pageUrl(currentPage + 1)} class="page-link">下一页 →</a>
+        )}
+      </nav>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .tag-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag-header h1 {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+
+  .post-count {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+
+  .page-link {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .page-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .page-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+</style>

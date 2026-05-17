@@ -1,3 +1,11 @@
+---
+title: 'store应该怎么用'
+date: 2026-05-13
+tags: ['前端', '后端', '架构', '性能优化']
+description: '在前端项目里，store 本质是：'
+draft: false
+---
+
 在前端项目里，`store` 本质是：
 
 ```txt

@@ -1,3 +1,11 @@
+---
+title: 'gitlab怎么跑cicd'
+date: 2026-05-13
+tags: ['前端', '后端', '运维', '工程化', '性能优化', '全栈']
+description: 'GitLab CI/CD 可以理解成：'
+draft: false
+---
+
 GitLab CI/CD 可以理解成：
 
 ```txt

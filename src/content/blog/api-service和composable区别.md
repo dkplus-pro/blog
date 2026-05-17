@@ -1,3 +1,11 @@
+---
+title: 'api、service和composable区别'
+date: 2026-05-13
+tags: ['前端', '后端']
+description: 'service：负责“串业务流程”'
+draft: false
+---
+
 可以按**层级从低到高**理解：
 
 ```txt

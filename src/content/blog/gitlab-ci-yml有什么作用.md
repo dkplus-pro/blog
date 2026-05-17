@@ -1,3 +1,11 @@
+---
+title: 'gitlab-ci yml有什么作用'
+date: 2026-05-13
+tags: ['前端', '运维', '工程化', '性能优化', '全栈']
+description: 'gitlab.yml 一般指的是 GitLab CI/CD 配置文件，标准文件名通常是：'
+draft: false
+---
+
 `gitlab.yml` 一般指的是 **GitLab CI/CD 配置文件**，标准文件名通常是：
 
 ```text

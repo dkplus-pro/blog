@@ -1,3 +1,11 @@
+---
+title: 'composable要怎么用'
+date: 2026-05-13
+tags: ['前端', '后端', '架构', '性能优化', '全栈']
+description: '播放器相关逻辑不要全部堆在页面或 store 里。'
+draft: false
+---
+
 这句话的意思是：
 
 ```txt
