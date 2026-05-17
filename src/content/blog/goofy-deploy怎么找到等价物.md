@@ -1,8 +1,8 @@
 ---
-title: 'goofy deploy怎么找到等价物'
+title: '字节 Goofy Deploy 对标方案：火山引擎与腾讯云实践'
 date: 2026-05-13
-tags: ['前端', '后端', '架构', '运维', '工程化', '性能优化', '全栈']
-description: '我不能确认字节内部 Goofy Deploy 的所有细节，但从公开资料看，它更像字节内部的 大前端部署平台 / Web 应用 PaaS，不是单纯的“云函数 Serverless”。'
+tags: ['DevOps', '部署', '字节', '云原生', '火山引擎', '腾讯云']
+description: '分析字节内部 Goofy Deploy 部署平台能力，对标火山引擎 veFaaS、TOS/CDN、VKE 和腾讯云 CloudBase、SCF 等产品'
 draft: false
 ---
 

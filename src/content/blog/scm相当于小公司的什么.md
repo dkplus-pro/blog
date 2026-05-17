@@ -1,8 +1,8 @@
 ---
-title: 'scm相当于小公司的什么'
+title: '字节 SCM 对标实践：小公司研发交付平台搭建'
 date: 2026-05-13
-tags: ['前端', '运维', '工程化', '性能优化', '全栈']
-description: '对，你这里说的 SCM 更像字节内部的 代码构建 / 研发交付平台，不是单纯 Git 仓库。'
+tags: ['DevOps', '工程化', 'GitLab', 'CI/CD', '字节']
+description: '分析字节内部 SCM 代码构建与发布平台能力，对标 GitLab + GitLab Runner + Docker 的小公司实践方案'
 draft: false
 ---
 

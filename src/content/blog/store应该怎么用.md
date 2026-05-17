@@ -1,8 +1,8 @@
 ---
-title: 'store应该怎么用'
+title: 'Pinia Store 最佳实践：全局状态管理的正确姿势'
 date: 2026-05-13
-tags: ['前端', '后端', '架构', '性能优化']
-description: '在前端项目里，store 本质是：'
+tags: ['前端', 'Vue', 'Pinia', '架构', 'TypeScript']
+description: '深入解析 Pinia store 的职责边界、使用场景和最佳实践，包括 store、page、component 的分层设计'
 draft: false
 ---
 

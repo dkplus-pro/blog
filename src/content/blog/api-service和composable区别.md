@@ -1,8 +1,8 @@
 ---
-title: 'api、service和composable区别'
+title: 'API、Service 和 Composable 分层设计详解'
 date: 2026-05-13
-tags: ['前端', '后端']
-description: 'service：负责“串业务流程”'
+tags: ['前端', 'Vue', '架构', 'TypeScript']
+description: '深入理解前端项目中的 API 层、Service 层和 Composable 层的职责划分与最佳实践'
 draft: false
 ---
 

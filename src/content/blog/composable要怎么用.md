@@ -1,8 +1,8 @@
 ---
-title: 'composable要怎么用'
+title: 'Vue3 Composable 最佳实践：以播放器为例'
 date: 2026-05-13
-tags: ['前端', '后端', '架构', '性能优化', '全栈']
-description: '播放器相关逻辑不要全部堆在页面或 store 里。'
+tags: ['前端', 'Vue', '架构', 'TypeScript']
+description: '通过播放器实例深入讲解 Vue3 Composable 的设计理念、store/service/composable 的职责划分'
 draft: false
 ---
 

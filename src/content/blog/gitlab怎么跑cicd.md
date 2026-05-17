@@ -1,8 +1,8 @@
 ---
-title: 'gitlab怎么跑cicd'
+title: 'GitLab CI/CD 完整实施手册'
 date: 2026-05-13
-tags: ['前端', '后端', '运维', '工程化', '性能优化', '全栈']
-description: 'GitLab CI/CD 可以理解成：'
+tags: ['DevOps', 'GitLab', 'CI/CD', '自动化', '部署']
+description: '从零开始搭建 GitLab CI/CD 流水线，包括 Runner 注册、Docker 配置和前端项目自动化部署实战'
 draft: false
 ---
 
