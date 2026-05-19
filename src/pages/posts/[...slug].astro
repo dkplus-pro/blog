@@ -27,59 +27,77 @@ allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const currentIndex = allPosts.findIndex(p => p.id.replace(/\.md$/, '') === slug);
 const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+const tocHeadings = headings.filter(h => h.depth <= 3);
+const hasToc = tocHeadings.length > 0;
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="post-full">
-    <header class="post-header">
-      <h1 class="post-title">{post.data.title}</h1>
-      <div class="post-meta">
-        <time datetime={post.data.date.toISOString()}>
-          {post.data.date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
-        <span class="separator">·</span>
-        <span>{readingTime}</span>
-      </div>
-      {post.data.tags.length > 0 && (
-        <div class="post-tags">
-          {post.data.tags.map(tag => (
-            <a href={`/blog/tags/${tag}`} class="tag">{tag}</a>
-          ))}
+  <article class={`post-full ${hasToc ? 'has-toc' : 'no-toc'}`}>
+    <div class="post-layout">
+      {hasToc && (
+        <aside class="post-sidebar" data-toc-sidebar>
+          <button
+            class="toc-toggle"
+            type="button"
+            data-toc-toggle
+            aria-controls="post-toc-list"
+            aria-expanded="true"
+          >
+            <span class="toc-toggle-icon" aria-hidden="true">‹</span>
+            <span class="toc-toggle-label">目录</span>
+          </button>
+          <nav class="toc" aria-label="文章目录">
+            <h2 class="toc-title">目录</h2>
+            <ul class="toc-list" id="post-toc-list">
+              {tocHeadings.map(h => (
+                <li class={`toc-item toc-depth-${h.depth}`}>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )}
+
+      <div class="post-main">
+        <header class="post-header">
+          <h1 class="post-title">{post.data.title}</h1>
+          <div class="post-meta">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <span class="separator">·</span>
+            <span>{readingTime}</span>
+          </div>
+          {post.data.tags.length > 0 && (
+            <div class="post-tags">
+              {post.data.tags.map(tag => (
+                <a href={`/blog/tags/${tag}`} class="tag">{tag}</a>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <div class="post-content">
+          <Content />
         </div>
-      )}
-    </header>
 
-    {headings.length > 0 && (
-      <nav class="toc">
-        <h3 class="toc-title">目录</h3>
-        <ul class="toc-list">
-          {headings.filter(h => h.depth <= 3).map(h => (
-            <li class={`toc-item toc-depth-${h.depth}`}>
-              <a href={`#${h.slug}`}>{h.text}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )}
-
-    <div class="post-content">
-      <Content />
+        <nav class="post-nav">
+          {prevPost && (
+            <a href={`/blog/posts/${prevPost.id.replace(/\.md$/, '')}`} class="post-nav-link prev">
+              <span class="post-nav-label">← 上一篇</span>
+              <span class="post-nav-title">{prevPost.data.title}</span>
+            </a>
+          )}
+          {nextPost && (
+            <a href={`/blog/posts/${nextPost.id.replace(/\.md$/, '')}`} class="post-nav-link next">
+              <span class="post-nav-label">下一篇 →</span>
+              <span class="post-nav-title">{nextPost.data.title}</span>
+            </a>
+          )}
+        </nav>
+      </div>
     </div>
-
-    <nav class="post-nav">
-      {prevPost && (
-        <a href={`/blog/posts/${prevPost.id.replace(/\.md$/, '')}`} class="post-nav-link prev">
-          <span class="post-nav-label">← 上一篇</span>
-          <span class="post-nav-title">{prevPost.data.title}</span>
-        </a>
-      )}
-      {nextPost && (
-        <a href={`/blog/posts/${nextPost.id.replace(/\.md$/, '')}`} class="post-nav-link next">
-          <span class="post-nav-label">下一篇 →</span>
-          <span class="post-nav-title">{nextPost.data.title}</span>
-        </a>
-      )}
-    </nav>
   </article>
 </BaseLayout>
 
@@ -101,12 +119,124 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
     });
     pre.appendChild(btn);
   });
+
+  const tocSidebar = document.querySelector('[data-toc-sidebar]');
+  const tocToggle = document.querySelector('[data-toc-toggle]');
+  const tocStorageKey = 'post-toc-collapsed';
+
+  function setTocCollapsed(collapsed) {
+    tocSidebar?.classList.toggle('collapsed', collapsed);
+    tocSidebar?.closest('.post-full')?.classList.toggle('toc-collapsed', collapsed);
+    tocToggle?.setAttribute('aria-expanded', String(!collapsed));
+  }
+
+  if (tocSidebar && tocToggle) {
+    const savedState = localStorage.getItem(tocStorageKey);
+    const shouldCollapse = savedState === 'true'
+      || (savedState === null && window.matchMedia('(max-width: 820px)').matches);
+
+    setTocCollapsed(shouldCollapse);
+
+    tocToggle.addEventListener('click', () => {
+      const collapsed = !tocSidebar.classList.contains('collapsed');
+      setTocCollapsed(collapsed);
+      localStorage.setItem(tocStorageKey, String(collapsed));
+    });
+  }
 </script>
 
 <style>
+  :global(.main.container) {
+    max-width: 1180px;
+  }
+
   .post-full {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .post-layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, var(--max-width));
+    align-items: start;
+    justify-content: center;
+    gap: 2.25rem;
+  }
+
+  .post-full.no-toc .post-layout {
+    display: block;
     max-width: var(--max-width);
     margin: 0 auto;
+  }
+
+  .post-full.toc-collapsed .post-layout {
+    grid-template-columns: 44px minmax(0, var(--max-width));
+    gap: 1rem;
+  }
+
+  .post-sidebar {
+    position: sticky;
+    top: 76px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    max-height: calc(100vh - 96px);
+    transition: width 0.2s ease;
+  }
+
+  .toc-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 34px;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+
+  .toc-toggle:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .toc-toggle-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+
+  .post-sidebar.collapsed {
+    width: 44px;
+  }
+
+  .post-sidebar.collapsed .toc {
+    display: none;
+  }
+
+  .post-sidebar.collapsed .toc-toggle {
+    justify-content: center;
+    min-height: 44px;
+    padding: 0;
+  }
+
+  .post-sidebar.collapsed .toc-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .post-sidebar.collapsed .toc-toggle-label {
+    display: none;
+  }
+
+  .post-main {
+    min-width: 0;
   }
 
   .post-header {
@@ -156,11 +286,11 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
   }
 
   .toc {
-    margin-bottom: 2rem;
     padding: 1rem 1.25rem;
     background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 8px;
+    overflow: auto;
   }
 
   .toc-title {
@@ -240,5 +370,53 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
     font-size: 0.9rem;
     color: var(--text);
     font-weight: 500;
+  }
+
+  @media (max-width: 960px) {
+    :global(.main.container) {
+      max-width: var(--max-width);
+    }
+
+    .post-full {
+      max-width: var(--max-width);
+    }
+
+    .post-layout {
+      display: block;
+    }
+
+    .post-sidebar {
+      position: static;
+      max-height: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-sidebar.collapsed {
+      width: auto;
+    }
+
+    .post-sidebar.collapsed .toc-toggle {
+      justify-content: space-between;
+      min-height: 34px;
+      padding: 0.35rem 0.6rem;
+    }
+
+    .post-sidebar.collapsed .toc-toggle-label {
+      display: inline;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .post-title {
+      font-size: 1.5rem;
+    }
+
+    .post-nav {
+      flex-direction: column;
+    }
+
+    .post-nav-link.next {
+      text-align: left;
+    }
   }
 </style>
