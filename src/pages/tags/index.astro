@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagWordCloud from '../../components/TagWordCloud.astro';
 import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -12,63 +13,48 @@ for (const post of posts) {
 }
 
 const sortedTags = [...tagCount.entries()].sort((a, b) => b[1] - a[1]);
+const tagData = sortedTags.map(([word, weight]) => ({ word, weight }));
+const totalTagged = sortedTags.reduce((sum, [, c]) => sum + c, 0);
 ---
 
-<BaseLayout title="标签" description="文章标签聚合">
+<BaseLayout title="标签" description="文章标签词云" wide>
   <section class="tags-page">
-    <h1>标签</h1>
+    <header class="tags-header">
+      <h1>标签</h1>
+      {sortedTags.length > 0 && (
+        <p class="tags-meta">
+          {sortedTags.length} 个标签 · 共 {totalTagged} 次引用
+        </p>
+      )}
+    </header>
+
     {sortedTags.length === 0 ? (
       <p class="empty">暂无标签</p>
     ) : (
-      <div class="tag-cloud">
-        {sortedTags.map(([tag, count]) => (
-          <a href={`/blog/tags/${tag}`} class="tag-item">
-            {tag}
-            <span class="tag-count">{count}</span>
-          </a>
-        ))}
-      </div>
+      <TagWordCloud tags={tagData} />
     )}
   </section>
 </BaseLayout>
 
 <style>
+  .tags-header {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
   .tags-page h1 {
-    margin-bottom: 1.5rem;
+    margin: 0 0 0.35rem;
     font-size: 1.75rem;
   }
 
-  .empty {
+  .tags-meta {
+    margin: 0;
+    font-size: 0.9rem;
     color: var(--text-secondary);
   }
 
-  .tag-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  .tag-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.9rem;
-    background: var(--tag-bg);
-    color: var(--tag-text);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-
-  .tag-item:hover {
-    opacity: 0.8;
-    text-decoration: none;
-  }
-
-  .tag-count {
-    font-size: 0.75rem;
-    opacity: 0.7;
+  .empty {
+    text-align: center;
+    color: var(--text-secondary);
   }
 </style>

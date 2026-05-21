@@ -1,0 +1,246 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "dkplus" [ref=e4] [cursor=pointer]:
+        - /url: /blog
+      - navigation [ref=e5]:
+        - link "首页" [ref=e6] [cursor=pointer]:
+          - /url: /blog
+        - link "标签" [ref=e7] [cursor=pointer]:
+          - /url: /blog/tags
+        - link "归档" [ref=e8] [cursor=pointer]:
+          - /url: /blog/archive
+        - link "搜索" [ref=e9] [cursor=pointer]:
+          - /url: /blog/search
+      - button "切换主题" [ref=e10] [cursor=pointer]:
+        - img [ref=e11]
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - heading "标签" [level=1] [ref=e16]
+        - paragraph [ref=e17]: 44 个标签 · 共 147 次引用
+      - generic [ref=e18]:
+        - paragraph [ref=e22]: 点击词云中的标签可查看文章 · 悬停显示数量
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - link "前端 17" [ref=e25] [cursor=pointer]:
+              - /url: /blog/tags/前端
+              - generic [ref=e26]: 前端
+              - generic [ref=e27]: "17"
+          - listitem [ref=e28]:
+            - link "架构 11" [ref=e29] [cursor=pointer]:
+              - /url: /blog/tags/架构
+              - generic [ref=e30]: 架构
+              - generic [ref=e31]: "11"
+          - listitem [ref=e32]:
+            - link "Vue 11" [ref=e33] [cursor=pointer]:
+              - /url: /blog/tags/Vue
+              - generic [ref=e34]: Vue
+              - generic [ref=e35]: "11"
+          - listitem [ref=e36]:
+            - link "TypeScript 10" [ref=e37] [cursor=pointer]:
+              - /url: /blog/tags/TypeScript
+              - generic [ref=e38]: TypeScript
+              - generic [ref=e39]: "10"
+          - listitem [ref=e40]:
+            - link "DevOps 9" [ref=e41] [cursor=pointer]:
+              - /url: /blog/tags/DevOps
+              - generic [ref=e42]: DevOps
+              - generic [ref=e43]: "9"
+          - listitem [ref=e44]:
+            - link "uni-app 6" [ref=e45] [cursor=pointer]:
+              - /url: /blog/tags/uni-app
+              - generic [ref=e46]: uni-app
+              - generic [ref=e47]: "6"
+          - listitem [ref=e48]:
+            - link "AI 6" [ref=e49] [cursor=pointer]:
+              - /url: /blog/tags/AI
+              - generic [ref=e50]: AI
+              - generic [ref=e51]: "6"
+          - listitem [ref=e52]:
+            - link "工程化 5" [ref=e53] [cursor=pointer]:
+              - /url: /blog/tags/工程化
+              - generic [ref=e54]: 工程化
+              - generic [ref=e55]: "5"
+          - listitem [ref=e56]:
+            - link "GitLab 5" [ref=e57] [cursor=pointer]:
+              - /url: /blog/tags/GitLab
+              - generic [ref=e58]: GitLab
+              - generic [ref=e59]: "5"
+          - listitem [ref=e60]:
+            - link "CI/CD 5" [ref=e61] [cursor=pointer]:
+              - /url: /blog/tags/CI/CD
+              - generic [ref=e62]: CI/CD
+              - generic [ref=e63]: "5"
+          - listitem [ref=e64]:
+            - link "腾讯云 4" [ref=e65] [cursor=pointer]:
+              - /url: /blog/tags/腾讯云
+              - generic [ref=e66]: 腾讯云
+              - generic [ref=e67]: "4"
+          - listitem [ref=e68]:
+            - link "Pinia 4" [ref=e69] [cursor=pointer]:
+              - /url: /blog/tags/Pinia
+              - generic [ref=e70]: Pinia
+              - generic [ref=e71]: "4"
+          - listitem [ref=e72]:
+            - link "Agent 4" [ref=e73] [cursor=pointer]:
+              - /url: /blog/tags/Agent
+              - generic [ref=e74]: Agent
+              - generic [ref=e75]: "4"
+          - listitem [ref=e76]:
+            - link "视频 4" [ref=e77] [cursor=pointer]:
+              - /url: /blog/tags/视频
+              - generic [ref=e78]: 视频
+              - generic [ref=e79]: "4"
+          - listitem [ref=e80]:
+            - link "字节 3" [ref=e81] [cursor=pointer]:
+              - /url: /blog/tags/字节
+              - generic [ref=e82]: 字节
+              - generic [ref=e83]: "3"
+          - listitem [ref=e84]:
+            - link "自动化 3" [ref=e85] [cursor=pointer]:
+              - /url: /blog/tags/自动化
+              - generic [ref=e86]: 自动化
+              - generic [ref=e87]: "3"
+          - listitem [ref=e88]:
+            - link "Git 3" [ref=e89] [cursor=pointer]:
+              - /url: /blog/tags/Git
+              - generic [ref=e90]: Git
+              - generic [ref=e91]: "3"
+          - listitem [ref=e92]:
+            - link "Cursor 3" [ref=e93] [cursor=pointer]:
+              - /url: /blog/tags/Cursor
+              - generic [ref=e94]: Cursor
+              - generic [ref=e95]: "3"
+          - listitem [ref=e96]:
+            - link "Python 3" [ref=e97] [cursor=pointer]:
+              - /url: /blog/tags/Python
+              - generic [ref=e98]: Python
+              - generic [ref=e99]: "3"
+          - listitem [ref=e100]:
+            - link "部署 2" [ref=e101] [cursor=pointer]:
+              - /url: /blog/tags/部署
+              - generic [ref=e102]: 部署
+              - generic [ref=e103]: "2"
+          - listitem [ref=e104]:
+            - link "云原生 2" [ref=e105] [cursor=pointer]:
+              - /url: /blog/tags/云原生
+              - generic [ref=e106]: 云原生
+              - generic [ref=e107]: "2"
+          - listitem [ref=e108]:
+            - link "火山引擎 2" [ref=e109] [cursor=pointer]:
+              - /url: /blog/tags/火山引擎
+              - generic [ref=e110]: 火山引擎
+              - generic [ref=e111]: "2"
+          - listitem [ref=e112]:
+            - link "后端 2" [ref=e113] [cursor=pointer]:
+              - /url: /blog/tags/后端
+              - generic [ref=e114]: 后端
+              - generic [ref=e115]: "2"
+          - listitem [ref=e116]:
+            - link "监控 2" [ref=e117] [cursor=pointer]:
+              - /url: /blog/tags/监控
+              - generic [ref=e118]: 监控
+              - generic [ref=e119]: "2"
+          - listitem [ref=e120]:
+            - link "安全 2" [ref=e121] [cursor=pointer]:
+              - /url: /blog/tags/安全
+              - generic [ref=e122]: 安全
+              - generic [ref=e123]: "2"
+          - listitem [ref=e124]:
+            - link "代码质量 1" [ref=e125] [cursor=pointer]:
+              - /url: /blog/tags/代码质量
+              - generic [ref=e126]: 代码质量
+              - generic [ref=e127]: "1"
+          - listitem [ref=e128]:
+            - link "API设计 1" [ref=e129] [cursor=pointer]:
+              - /url: /blog/tags/API设计
+              - generic [ref=e130]: API设计
+              - generic [ref=e131]: "1"
+          - listitem [ref=e132]:
+            - link "数据库 1" [ref=e133] [cursor=pointer]:
+              - /url: /blog/tags/数据库
+              - generic [ref=e134]: 数据库
+              - generic [ref=e135]: "1"
+          - listitem [ref=e136]:
+            - link "全栈 1" [ref=e137] [cursor=pointer]:
+              - /url: /blog/tags/全栈
+              - generic [ref=e138]: 全栈
+              - generic [ref=e139]: "1"
+          - listitem [ref=e140]:
+            - link "CSS 1" [ref=e141] [cursor=pointer]:
+              - /url: /blog/tags/CSS
+              - generic [ref=e142]: CSS
+              - generic [ref=e143]: "1"
+          - listitem [ref=e144]:
+            - link "UnoCSS 1" [ref=e145] [cursor=pointer]:
+              - /url: /blog/tags/UnoCSS
+              - generic [ref=e146]: UnoCSS
+              - generic [ref=e147]: "1"
+          - listitem [ref=e148]:
+            - link "Sentry 1" [ref=e149] [cursor=pointer]:
+              - /url: /blog/tags/Sentry
+              - generic [ref=e150]: Sentry
+              - generic [ref=e151]: "1"
+          - listitem [ref=e152]:
+            - link "ESLint 1" [ref=e153] [cursor=pointer]:
+              - /url: /blog/tags/ESLint
+              - generic [ref=e154]: ESLint
+              - generic [ref=e155]: "1"
+          - listitem [ref=e156]:
+            - link "Node.js 1" [ref=e157] [cursor=pointer]:
+              - /url: /blog/tags/Node.js
+              - generic [ref=e158]: Node.js
+              - generic [ref=e159]: "1"
+          - listitem [ref=e160]:
+            - link "React 1" [ref=e161] [cursor=pointer]:
+              - /url: /blog/tags/React
+              - generic [ref=e162]: React
+              - generic [ref=e163]: "1"
+          - listitem [ref=e164]:
+            - link "接口 1" [ref=e165] [cursor=pointer]:
+              - /url: /blog/tags/接口
+              - generic [ref=e166]: 接口
+              - generic [ref=e167]: "1"
+          - listitem [ref=e168]:
+            - link "千问 1" [ref=e169] [cursor=pointer]:
+              - /url: /blog/tags/千问
+              - generic [ref=e170]: 千问
+              - generic [ref=e171]: "1"
+          - listitem [ref=e172]:
+            - link "权限 1" [ref=e173] [cursor=pointer]:
+              - /url: /blog/tags/权限
+              - generic [ref=e174]: 权限
+              - generic [ref=e175]: "1"
+          - listitem [ref=e176]:
+            - link "Kubernetes 1" [ref=e177] [cursor=pointer]:
+              - /url: /blog/tags/Kubernetes
+              - generic [ref=e178]: Kubernetes
+              - generic [ref=e179]: "1"
+          - listitem [ref=e180]:
+            - link "发布 1" [ref=e181] [cursor=pointer]:
+              - /url: /blog/tags/发布
+              - generic [ref=e182]: 发布
+              - generic [ref=e183]: "1"
+          - listitem [ref=e184]:
+            - link "飞书 1" [ref=e185] [cursor=pointer]:
+              - /url: /blog/tags/飞书
+              - generic [ref=e186]: 飞书
+              - generic [ref=e187]: "1"
+          - listitem [ref=e188]:
+            - link "HLS 1" [ref=e189] [cursor=pointer]:
+              - /url: /blog/tags/HLS
+              - generic [ref=e190]: HLS
+              - generic [ref=e191]: "1"
+          - listitem [ref=e192]:
+            - link "流媒体 1" [ref=e193] [cursor=pointer]:
+              - /url: /blog/tags/流媒体
+              - generic [ref=e194]: 流媒体
+              - generic [ref=e195]: "1"
+          - listitem [ref=e196]:
+            - link "RUM 1" [ref=e197] [cursor=pointer]:
+              - /url: /blog/tags/RUM
+              - generic [ref=e198]: RUM
+              - generic [ref=e199]: "1"
+  - contentinfo [ref=e200]:
+    - paragraph [ref=e202]: © 2026 Blog. Powered by Astro.
