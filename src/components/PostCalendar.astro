@@ -1,0 +1,448 @@
+---
+import {
+  buildCalendarWeeks,
+  buildMonthLabels,
+  buildPostCountMap,
+  getCalendarYears,
+  getHeatLevel,
+  getYearPostStats,
+  getYearRange,
+  toDateKey,
+} from '../utils/calendar';
+
+export interface Props {
+  dates: Date[];
+}
+
+const { dates } = Astro.props;
+
+const GAP = 3;
+const LABEL_COL = 14;
+const MAX_CELL = 11;
+const MIN_CELL = 5;
+
+const postCounts = buildPostCountMap(dates);
+const years = getCalendarYears(dates);
+const today = new Date();
+const todayKey = toDateKey(today);
+
+const defaultYear = years.includes(today.getFullYear())
+  ? today.getFullYear()
+  : years[0];
+
+const yearViews = years.map((year) => {
+  const { start, end } = getYearRange(year);
+  const weeks = buildCalendarWeeks(start, end, postCounts);
+  const stats = getYearPostStats(postCounts, year);
+  const maxCount = stats.maxCount;
+
+  return {
+    year,
+    weeks,
+    weekCount: weeks.length,
+    monthLabels: buildMonthLabels(weeks),
+    stats,
+    maxCount,
+  };
+});
+---
+
+<aside
+  class="post-calendar"
+  data-default-year={defaultYear}
+  style={`--gap: ${GAP}px; --label-col: ${LABEL_COL}px; --cell-max: ${MAX_CELL}px; --cell-min: ${MIN_CELL}px;`}
+  aria-label="发文日历"
+>
+  <div class="calendar-header">
+    <div class="calendar-header-top">
+      <h2 class="calendar-title">发文日历</h2>
+      <div class="year-nav">
+        <button
+          type="button"
+          class="year-btn"
+          id="yearPrev"
+          aria-label="上一年"
+          disabled={years.length <= 1}
+        >
+          ‹
+        </button>
+        <span class="year-display" id="yearDisplay">{defaultYear}</span>
+        <button
+          type="button"
+          class="year-btn"
+          id="yearNext"
+          aria-label="下一年"
+          disabled={years.length <= 1}
+        >
+          ›
+        </button>
+      </div>
+    </div>
+    <p class="calendar-stats" id="calendarStats">
+      {yearViews.find((v) => v.year === defaultYear)?.stats.days ?? 0} 天 ·{' '}
+      {yearViews.find((v) => v.year === defaultYear)?.stats.posts ?? 0} 篇
+    </p>
+  </div>
+
+  <div class="calendar-viewport" id="calendarViewport">
+    {yearViews.map(({ year, weeks, weekCount, monthLabels, maxCount, stats }) => (
+      <div
+        class="calendar-panel"
+        data-year={year}
+        data-week-count={weekCount}
+        data-max-count={maxCount}
+        data-days={stats.days}
+        data-posts={stats.posts}
+        hidden={year !== defaultYear}
+      >
+        <div class="calendar-chart">
+          <span class="calendar-corner" aria-hidden="true" />
+
+          {monthLabels.map(({ weekIndex, label }) => (
+            <span
+              class="month-label"
+              style={`grid-column: ${weekIndex + 2}; grid-row: 1`}
+            >
+              {label}
+            </span>
+          ))}
+
+          {['日', '一', '二', '三', '四', '五', '六'].map((label, rowIdx) => (
+            <>
+              <span
+                class:list={[
+                  'weekday-label',
+                  rowIdx % 2 !== 0 && 'weekday-label--hide',
+                ]}
+                style={`grid-column: 1; grid-row: ${rowIdx + 2}`}
+              >
+                {label}
+              </span>
+              {weeks.map((week, weekIdx) => {
+                const day = week.days[rowIdx];
+                const level = day.inRange
+                  ? getHeatLevel(day.count, maxCount)
+                  : 0;
+                const title = day.inRange
+                  ? `${day.dateKey}：${day.count} 篇`
+                  : day.dateKey;
+                const classNames = [
+                  'calendar-day',
+                  `calendar-day--l${level}`,
+                  !day.inRange && 'calendar-day--out',
+                  day.inRange &&
+                    day.dateKey === todayKey &&
+                    'calendar-day--today',
+                ].filter(Boolean);
+                const placement = `grid-column: ${weekIdx + 2}; grid-row: ${rowIdx + 2}`;
+
+                return day.inRange && day.count > 0 ? (
+                  <a
+                    class:list={classNames}
+                    style={placement}
+                    role="gridcell"
+                    title={title}
+                    href={`/blog/day/${day.dateKey}/`}
+                    aria-label={title}
+                  />
+                ) : (
+                  <span
+                    class:list={classNames}
+                    style={placement}
+                    role="gridcell"
+                    title={title}
+                  />
+                );
+              })}
+            </>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="calendar-legend" aria-hidden="true">
+    <span class="legend-label">少</span>
+    <span class="legend-swatch calendar-day--l0" />
+    <span class="legend-swatch calendar-day--l1" />
+    <span class="legend-swatch calendar-day--l2" />
+    <span class="legend-swatch calendar-day--l3" />
+    <span class="legend-swatch calendar-day--l4" />
+    <span class="legend-label">多</span>
+  </div>
+</aside>
+
+<script>
+  function initPostCalendar(root: HTMLElement) {
+    const panels = [...root.querySelectorAll<HTMLElement>('.calendar-panel')];
+    const years = panels.map((p) => Number(p.dataset.year)).sort((a, b) => b - a);
+    if (years.length === 0) return;
+
+    const viewport = root.querySelector<HTMLElement>('#calendarViewport')!;
+    const yearDisplay = root.querySelector<HTMLElement>('#yearDisplay')!;
+    const statsEl = root.querySelector<HTMLElement>('#calendarStats')!;
+    const prevBtn = root.querySelector<HTMLButtonElement>('#yearPrev')!;
+    const nextBtn = root.querySelector<HTMLButtonElement>('#yearNext')!;
+
+    const labelCol = parseFloat(getComputedStyle(root).getPropertyValue('--label-col')) || 14;
+    const gap = parseFloat(getComputedStyle(root).getPropertyValue('--gap')) || 3;
+    const cellMax = parseFloat(getComputedStyle(root).getPropertyValue('--cell-max')) || 11;
+    const cellMin = parseFloat(getComputedStyle(root).getPropertyValue('--cell-min')) || 5;
+
+    let index = years.indexOf(Number(root.dataset.defaultYear));
+    if (index < 0) index = 0;
+
+    function fitCells() {
+      const panel = panels.find((p) => !p.hidden);
+      if (!panel) return;
+
+      const chart = panel.querySelector<HTMLElement>('.calendar-chart');
+      if (!chart) return;
+
+      const weekCount = Number(panel.dataset.weekCount) || 1;
+      const available = viewport.clientWidth - labelCol;
+      const cell =
+        weekCount > 0
+          ? Math.floor((available - (weekCount - 1) * gap) / weekCount)
+          : cellMax;
+
+      const size = Math.max(cellMin, Math.min(cellMax, cell));
+      root.style.setProperty('--cell', `${size}px`);
+      chart.style.setProperty('--week-count', String(weekCount));
+    }
+
+    function updateNav() {
+      const year = years[index];
+      panels.forEach((p) => {
+        p.hidden = Number(p.dataset.year) !== year;
+      });
+      yearDisplay.textContent = String(year);
+
+      const panel = panels.find((p) => Number(p.dataset.year) === year);
+      if (panel && statsEl) {
+        statsEl.textContent = `${panel.dataset.days} 天 · ${panel.dataset.posts} 篇`;
+      }
+
+      prevBtn.disabled = index >= years.length - 1;
+      nextBtn.disabled = index <= 0;
+      fitCells();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (index < years.length - 1) {
+        index += 1;
+        updateNav();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (index > 0) {
+        index -= 1;
+        updateNav();
+      }
+    });
+
+    const ro = new ResizeObserver(() => fitCells());
+    ro.observe(viewport);
+
+    updateNav();
+  }
+
+  document.querySelectorAll<HTMLElement>('.post-calendar').forEach(initPostCalendar);
+</script>
+
+<style>
+  .post-calendar {
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    --cell: var(--cell-max);
+  }
+
+  .calendar-header {
+    margin-bottom: 0.65rem;
+  }
+
+  .calendar-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .calendar-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+  }
+
+  .year-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .year-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+  }
+
+  .year-btn:hover:not(:disabled) {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .year-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .year-display {
+    min-width: 2.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .calendar-stats {
+    margin: 0.35rem 0 0;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .calendar-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .calendar-panel[hidden] {
+    display: none;
+  }
+
+  .calendar-chart {
+    display: grid;
+    grid-template-columns: var(--label-col) repeat(var(--week-count), var(--cell));
+    grid-template-rows: auto repeat(7, var(--cell));
+    column-gap: var(--gap);
+    row-gap: var(--gap);
+    width: 100%;
+    align-items: center;
+  }
+
+  .calendar-corner {
+    grid-column: 1;
+    grid-row: 1;
+    width: var(--label-col);
+    height: 1em;
+  }
+
+  .month-label {
+    font-size: 0.65rem;
+    line-height: 1;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    align-self: end;
+    padding-bottom: 1px;
+  }
+
+  .weekday-label {
+    font-size: 0.6rem;
+    line-height: var(--cell);
+    height: var(--cell);
+    color: var(--text-secondary);
+    text-align: right;
+    padding-right: 2px;
+    justify-self: end;
+  }
+
+  .weekday-label--hide {
+    visibility: hidden;
+  }
+
+  .calendar-day {
+    display: block;
+    width: var(--cell);
+    height: var(--cell);
+    box-sizing: border-box;
+    border-radius: 2px;
+    border: none;
+    padding: 0;
+    text-decoration: none;
+    justify-self: center;
+    align-self: center;
+  }
+
+  a.calendar-day:hover {
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .calendar-day--out {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .calendar-day--today {
+    box-shadow: 0 0 0 1px var(--text-secondary);
+  }
+
+  .calendar-day--l0 {
+    background: var(--calendar-empty);
+  }
+
+  .calendar-day--l1 {
+    background: var(--calendar-l1);
+  }
+
+  .calendar-day--l2 {
+    background: var(--calendar-l2);
+  }
+
+  .calendar-day--l3 {
+    background: var(--calendar-l3);
+  }
+
+  .calendar-day--l4 {
+    background: var(--calendar-l4);
+  }
+
+  .calendar-legend {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    margin-top: 0.65rem;
+    justify-content: flex-end;
+  }
+
+  .legend-swatch {
+    display: block;
+    width: var(--cell);
+    height: var(--cell);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .legend-label {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    margin: 0 2px;
+  }
+</style>

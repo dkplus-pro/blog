@@ -13,6 +13,13 @@
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   --header-bg: rgba(255, 255, 255, 0.9);
   --max-width: 800px;
+  --max-width-wide: 1100px;
+  --calendar-empty: #ebedf0;
+  --calendar-empty-border: #d0d7de;
+  --calendar-l1: #9be9a8;
+  --calendar-l2: #40c463;
+  --calendar-l3: #30a14e;
+  --calendar-l4: #216e39;
   --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   --astro-code-foreground: #1f2328;
   --astro-code-background: #f6f8fa;
@@ -41,6 +48,12 @@
   --tag-text: #58a6ff;
   --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   --header-bg: rgba(13, 17, 23, 0.9);
+  --calendar-empty: #161b22;
+  --calendar-empty-border: #30363d;
+  --calendar-l1: #0e4429;
+  --calendar-l2: #006d32;
+  --calendar-l3: #26a641;
+  --calendar-l4: #39d353;
   --astro-code-foreground: #e6edf3;
   --astro-code-background: #161b22;
   --astro-code-token-constant: #79c0ff;
@@ -198,6 +211,10 @@ hr {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+.container--wide {
+  max-width: var(--max-width-wide);
 }
 
 .sr-only {

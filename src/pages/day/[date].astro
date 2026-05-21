@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { formatDisplayDate, toDateKey } from '../../utils/calendar';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+  const dateKeys = new Set<string>();
+
+  for (const post of allPosts) {
+    dateKeys.add(toDateKey(post.data.date));
+  }
+
+  return [...dateKeys].map((date) => {
+    const posts = allPosts
+      .filter((post) => toDateKey(post.data.date) === date)
+      .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+    return {
+      params: { date },
+      props: { posts, date },
+    };
+  });
+}
+
+const { posts, date } = Astro.props;
+
+function getReadingTime(body: string): string {
+  const words = body.trim().split(/\s+/).length;
+  const minutes = Math.max(1, Math.ceil(words / 400));
+  return `${minutes} 分钟阅读`;
+}
+
+const displayDate = formatDisplayDate(date);
+---
+
+<BaseLayout title={`${displayDate} 的文章`} description={`${date} 发布的 ${posts.length} 篇文章`}>
+  <section class="day-page">
+    <nav class="day-breadcrumb">
+      <a href="/blog">← 返回首页</a>
+    </nav>
+
+    <header class="day-header">
+      <h1>{displayDate}</h1>
+      <p class="day-count">共 {posts.length} 篇文章</p>
+    </header>
+
+    {posts.length > 0 ? (
+      <div class="post-list">
+        {posts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            date={post.data.date}
+            tags={post.data.tags}
+            description={post.data.description}
+            readingTime={getReadingTime(post.body)}
+            slug={post.id}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="day-empty">这一天没有文章。</p>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .day-breadcrumb {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .day-breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .day-breadcrumb a:hover {
+    color: var(--accent);
+  }
+
+  .day-header h1 {
+    margin: 0 0 0.35rem;
+    font-size: 1.5rem;
+  }
+
+  .day-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .day-empty {
+    color: var(--text-secondary);
+  }
+</style>
