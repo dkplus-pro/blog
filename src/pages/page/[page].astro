@@ -1,12 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import PostCalendar from '../../components/PostCalendar.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog', ({ data }) => !data.draft);
   allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
+  const postDates = allPosts.map((post) => post.data.date);
   const pageSize = 10;
   const totalPages = Math.ceil(allPosts.length / pageSize);
 
@@ -16,12 +18,12 @@ export async function getStaticPaths() {
     const posts = allPosts.slice(start, start + pageSize);
     return {
       params: { page: String(pageNum) },
-      props: { posts, currentPage: pageNum, totalPages, totalPosts: allPosts.length },
+      props: { posts, currentPage: pageNum, totalPages, totalPosts: allPosts.length, postDates },
     };
   });
 }
 
-const { posts, currentPage, totalPages, totalPosts } = Astro.props;
+const { posts, currentPage, totalPages, totalPosts, postDates } = Astro.props;
 
 function getReadingTime(body: string): string {
   const words = body.trim().split(/\s+/).length;
@@ -30,37 +32,67 @@ function getReadingTime(body: string): string {
 }
 ---
 
-<BaseLayout title={`第 ${currentPage} 页`} description="技术博客">
-  <section class="home">
-    <div class="home-header">
-      <h1>文章</h1>
-      <span class="post-count">共 {totalPosts} 篇</span>
-    </div>
+<BaseLayout title={`第 ${currentPage} 页`} description="技术博客" wide>
+  <div class="home-layout">
+    <section class="home-main">
+      <div class="home-header">
+        <h1>文章</h1>
+        <span class="post-count">共 {totalPosts} 篇</span>
+      </div>
 
-    <div class="post-list">
-      {posts.map(post => (
-        <PostCard
-          title={post.data.title}
-          date={post.data.date}
-          tags={post.data.tags}
-          description={post.data.description}
-          readingTime={getReadingTime(post.body)}
-          slug={post.id}
-        />
-      ))}
-    </div>
+      <div class="post-list">
+        {posts.map(post => (
+          <PostCard
+            title={post.data.title}
+            date={post.data.date}
+            tags={post.data.tags}
+            description={post.data.description}
+            readingTime={getReadingTime(post.body)}
+            slug={post.id}
+          />
+        ))}
+      </div>
 
-    <nav class="pagination">
-      <a href={currentPage === 2 ? '/blog/' : `/blog/page/${currentPage - 1}/`} class="page-link">← 上一页</a>
-      <span class="page-info">{currentPage} / {totalPages}</span>
-      {currentPage < totalPages && (
-        <a href={`/blog/page/${currentPage + 1}/`} class="page-link">下一页 →</a>
-      )}
-    </nav>
-  </section>
+      <nav class="pagination">
+        <a href={currentPage === 2 ? '/blog/' : `/blog/page/${currentPage - 1}/`} class="page-link">← 上一页</a>
+        <span class="page-info">{currentPage} / {totalPages}</span>
+        {currentPage < totalPages && (
+          <a href={`/blog/page/${currentPage + 1}/`} class="page-link">下一页 →</a>
+        )}
+      </nav>
+    </section>
+
+    <aside class="home-sidebar">
+      <PostCalendar dates={postDates} />
+    </aside>
+  </div>
 </BaseLayout>
 
 <style>
+  .home-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .home-sidebar {
+    position: sticky;
+    top: calc(56px + 2rem);
+    min-width: 0;
+  }
+
+  @media (max-width: 900px) {
+    .home-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .home-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+
   .home-header {
     display: flex;
     align-items: baseline;
