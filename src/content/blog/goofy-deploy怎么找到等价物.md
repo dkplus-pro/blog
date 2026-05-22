@@ -1,6 +1,6 @@
 ---
 title: '字节 Goofy Deploy 对标方案：火山引擎与腾讯云实践'
-date: 2026-05-13
+date: 2026-05-07
 tags: ['DevOps', '部署', '字节', '云原生', '火山引擎', '腾讯云']
 description: '分析字节内部 Goofy Deploy 部署平台能力，对标火山引擎 veFaaS、TOS/CDN、VKE 和腾讯云 CloudBase、SCF 等产品'
 draft: false

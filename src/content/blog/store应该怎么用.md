@@ -1,6 +1,6 @@
 ---
 title: 'Pinia Store 最佳实践：全局状态管理的正确姿势'
-date: 2026-05-13
+date: 2026-05-11
 tags: ['前端', 'Vue', 'Pinia', '架构', 'TypeScript']
 description: '深入解析 Pinia store 的职责边界、使用场景和最佳实践，包括 store、page、component 的分层设计'
 draft: false

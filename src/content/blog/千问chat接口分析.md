@@ -1,6 +1,6 @@
 ---
 title: '通义千问 chat 私有接口拆解：参数、签名与调用限制'
-date: 2026-05-19
+date: 2026-05-16
 tags: ['AI', '接口', '千问', '安全']
 description: '拆解千问网页版 /api/v1/chat/snap 接口的 URL、Header、Body 与安全结论'
 draft: false

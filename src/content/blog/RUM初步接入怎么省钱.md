@@ -1,6 +1,6 @@
 ---
 title: '腾讯云 RUM 接入省钱指南：上报量估算与开关配置'
-date: 2026-05-21
+date: 2026-05-08
 tags: ['前端', '监控', '腾讯云', 'RUM', 'DevOps']
 description: '按 PV × 单次上报条数估算免费额度，梳理接口/资源测速等烧钱项，给出 MVP 阶段最省钱的 aegis 配置'
 draft: false

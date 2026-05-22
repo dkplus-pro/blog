@@ -1,6 +1,6 @@
 ---
 title: 'enums 与 constants 职责划分：固定值该怎么放'
-date: 2026-05-19
+date: 2026-05-03
 tags: ['前端', 'TypeScript', '架构']
 description: '区分业务枚举 enums 与普通配置常量 constants 的适用场景、命名与目录组织'
 draft: false

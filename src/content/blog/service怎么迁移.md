@@ -1,6 +1,6 @@
 ---
 title: '前端 services 层迁移指南：从接口层到业务流程层'
-date: 2026-05-19
+date: 2026-05-10
 tags: ['前端', 'Vue', '架构', 'TypeScript', 'uni-app']
 description: '如何将现有 services 逐步拆分为 api 接口层与真正的 services 业务流程层，含目录与迁移步骤'
 draft: false

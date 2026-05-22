@@ -1,6 +1,6 @@
 ---
 title: '从零搭建 Agent MVP：React + Node.js 六阶段实战'
-date: 2026-05-19
+date: 2026-05-20
 tags: ['Agent', 'AI', 'Node.js', 'React', 'TypeScript']
 description: '分阶段实现最小可用 AI Agent：聊天界面、Express 后端、Prompt 组织与大模型调用闭环'
 draft: false

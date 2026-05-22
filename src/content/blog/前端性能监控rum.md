@@ -1,6 +1,6 @@
 ---
 title: '腾讯云 RUM 前端性能监控完全指南'
-date: 2026-05-13
+date: 2026-05-17
 tags: ['前端', '监控', 'DevOps', '腾讯云', 'Sentry']
 description: '使用腾讯云 RUM 和 aegis-mp-sdk 实现前端性能监控、错误追踪、SourceMap 上传和 CI/CD 集成'
 draft: false

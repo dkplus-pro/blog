@@ -1,6 +1,6 @@
 ---
 title: 'uni-app 项目设计完全指南：从目录结构到分包优化'
-date: 2026-05-13
+date: 2026-05-21
 tags: ['uni-app', '前端', '架构', 'TypeScript', 'Vue']
 description: '中大型 uni-app 项目的完整设计方案，包括目录结构、状态管理、请求封装、分包设计和代码规范'
 draft: false

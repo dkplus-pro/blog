@@ -1,6 +1,6 @@
 ---
 title: 'Cursor AI 代码审查实战指南'
-date: 2026-05-13
+date: 2026-05-03
 tags: ['AI', '前端', '工程化', '代码质量']
 description: '使用 Cursor 进行项目架构审查的完整方法论，包括全局状态、全局变量、环境变量和页面变量等维度的审查技巧'
 draft: false

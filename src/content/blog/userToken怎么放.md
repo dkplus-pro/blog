@@ -1,6 +1,6 @@
 ---
 title: '用户 Token 存储方案：storage 持久化与 store 运行时状态'
-date: 2026-05-19
+date: 2026-05-13
 tags: ['前端', 'uni-app', 'Vue', 'Pinia', '安全']
 description: '登录态 token 在 uni-app 中如何配合 storage 与 Pinia store，含启动恢复与请求拦截'
 draft: false

@@ -1,6 +1,6 @@
 ---
 title: 'uni-app 项目目录设计：主包轻、分包清、公共能力独立'
-date: 2026-05-19
+date: 2026-05-12
 tags: ['uni-app', '前端', '架构', 'TypeScript', 'Vue']
 description: 'uniapp + Vue3 + TS + Pinia 项目的推荐目录结构、分层职责与分包组织原则'
 draft: false

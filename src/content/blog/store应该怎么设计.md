@@ -1,6 +1,6 @@
 ---
 title: 'Pinia Store 设计规范：uni-app 全局状态分层与拆分'
-date: 2026-05-21
+date: 2026-05-11
 tags: ['前端', 'Vue', 'Pinia', '架构', 'TypeScript', 'uni-app']
 description: '从放什么、目录结构、Setup/Option 写法到与 service/hooks/storage 分工，给出拆分规则、健壮性约定与可落地的代码模板'
 draft: false

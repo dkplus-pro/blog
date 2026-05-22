@@ -1,6 +1,6 @@
 ---
 title: 'GitLab Webhook 直连飞书通知方案'
-date: 2026-05-21
+date: 2026-05-06
 tags: ['DevOps', 'GitLab', '飞书', '自动化', 'CI/CD']
 description: '用 Custom webhook template 将 MR、Pipeline、部署与 Tag 事件转为飞书群消息，含模板示例与安全策略'
 draft: false

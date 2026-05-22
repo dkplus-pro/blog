@@ -1,6 +1,6 @@
 ---
 title: '字节 TCE 对标方案：火山引擎与腾讯云云原生实践'
-date: 2026-05-13
+date: 2026-05-22
 tags: ['云原生', 'Kubernetes', 'DevOps', '字节', '火山引擎', '腾讯云']
 description: '分析字节内部 TCE 云原生服务运行与发布平台，对标火山引擎 VKE、持续交付 CP 和腾讯云 TKE、CODING 持续部署'
 draft: false

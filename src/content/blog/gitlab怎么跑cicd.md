@@ -1,6 +1,6 @@
 ---
 title: 'GitLab CI/CD 完整实施手册'
-date: 2026-05-13
+date: 2026-05-05
 tags: ['DevOps', 'GitLab', 'CI/CD', '自动化', '部署']
 description: '从零开始搭建 GitLab CI/CD 流水线，包括 Runner 注册、Docker 配置和前端项目自动化部署实战'
 draft: false

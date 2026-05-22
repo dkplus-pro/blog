@@ -1,6 +1,6 @@
 ---
 title: '多分支并行上线下的 Git 分支整理方案'
-date: 2026-05-19
+date: 2026-05-15
 tags: ['Git', '工程化', '发布']
 description: 'feature/5.13、mp-html 重构与 dev-zc 并行时的 release 节奏、合并顺序与操作命令'
 draft: false

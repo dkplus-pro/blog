@@ -1,6 +1,6 @@
 ---
 title: 'Store 与 Composable 职责划分：全局状态 vs 页面逻辑复用'
-date: 2026-05-19
+date: 2026-05-10
 tags: ['前端', 'Vue', 'Pinia', '架构', 'TypeScript']
 description: '对比 Pinia store 与 Vue composable 的适用场景、协作方式与常见反模式'
 draft: false

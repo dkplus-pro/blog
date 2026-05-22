@@ -1,6 +1,6 @@
 ---
 title: 'GitLab GitFlow 工程协作规范'
-date: 2026-05-21
+date: 2026-05-04
 tags: ['Git', 'GitLab', '工程化', 'DevOps', 'CI/CD']
 description: '分支模型、MR 规则、CI/CD、版本发布、Hotfix、Tag 与权限通知的通用 GitFlow + GitLab 协作规范'
 draft: false

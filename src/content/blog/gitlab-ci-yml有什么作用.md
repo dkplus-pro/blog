@@ -1,6 +1,6 @@
 ---
 title: 'GitLab CI/CD 配置文件完全指南'
-date: 2026-05-13
+date: 2026-05-05
 tags: ['DevOps', 'GitLab', 'CI/CD', '自动化']
 description: '全面解析 .gitlab-ci.yml 的作用、常用字段和配置示例，帮助理解持续集成与持续部署的核心概念'
 draft: false

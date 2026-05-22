@@ -1,6 +1,6 @@
 ---
 title: '字节 SCM 对标实践：小公司研发交付平台搭建'
-date: 2026-05-13
+date: 2026-05-09
 tags: ['DevOps', '工程化', 'GitLab', 'CI/CD', '字节']
 description: '分析字节内部 SCM 代码构建与发布平台能力，对标 GitLab + GitLab Runner + Docker 的小公司实践方案'
 draft: false
